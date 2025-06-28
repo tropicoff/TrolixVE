@@ -158,17 +158,17 @@ class TrolixVEAPITester(unittest.TestCase):
 
     def test_09_execute_terminal_command(self):
         """Test executing a terminal command"""
-        if not TrolixVEAPITester.sandbox_id:
+        if not hasattr(self, 'sandbox_id') or not self.sandbox_id:
             self.skipTest("No sandbox ID available")
             
-        print(f"\n🔍 Testing terminal command execution for sandbox ID: {TrolixVEAPITester.sandbox_id}...")
+        print(f"\n🔍 Testing terminal command execution for sandbox ID: {self.sandbox_id}...")
         
         # Start the sandbox first to ensure it's running
-        requests.post(f"{self.base_url}/api/sandboxes/{TrolixVEAPITester.sandbox_id}/start")
+        requests.post(f"{self.base_url}/api/sandboxes/{self.sandbox_id}/start")
         
         # Test basic command
         command_data = {
-            "sandbox_id": TrolixVEAPITester.sandbox_id,
+            "sandbox_id": self.sandbox_id,
             "command": "ls"
         }
         response = requests.post(
@@ -183,7 +183,7 @@ class TrolixVEAPITester(unittest.TestCase):
         
         # Test cybersecurity command
         command_data = {
-            "sandbox_id": TrolixVEAPITester.sandbox_id,
+            "sandbox_id": self.sandbox_id,
             "command": "nmap"
         }
         response = requests.post(
