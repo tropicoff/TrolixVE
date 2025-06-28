@@ -198,12 +198,12 @@ class TrolixVEAPITester(unittest.TestCase):
 
     def test_10_get_terminal_history(self):
         """Test getting terminal command history"""
-        if not TrolixVEAPITester.sandbox_id:
+        if not hasattr(self, 'sandbox_id') or not self.sandbox_id:
             self.skipTest("No sandbox ID available")
             
-        print(f"\n🔍 Testing terminal history endpoint for sandbox ID: {TrolixVEAPITester.sandbox_id}...")
+        print(f"\n🔍 Testing terminal history endpoint for sandbox ID: {self.sandbox_id}...")
         response = requests.get(
-            f"{self.base_url}/api/terminal/{TrolixVEAPITester.sandbox_id}/history"
+            f"{self.base_url}/api/terminal/{self.sandbox_id}/history"
         )
         self.assertEqual(response.status_code, 200)
         history = response.json()
@@ -215,7 +215,7 @@ class TrolixVEAPITester(unittest.TestCase):
             self.assertIn("command", entry)
             self.assertIn("output", entry)
             self.assertIn("timestamp", entry)
-            self.assertEqual(entry["sandbox_id"], TrolixVEAPITester.sandbox_id)
+            self.assertEqual(entry["sandbox_id"], self.sandbox_id)
             
         print(f"✅ Terminal history endpoint passed - Found {len(history)} history entries")
 
