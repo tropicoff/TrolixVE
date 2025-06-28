@@ -114,12 +114,12 @@ class TrolixVEAPITester(unittest.TestCase):
 
     def test_07_start_sandbox(self):
         """Test starting a sandbox"""
-        if not TrolixVEAPITester.sandbox_id:
+        if not hasattr(self, 'sandbox_id') or not self.sandbox_id:
             self.skipTest("No sandbox ID available")
             
-        print(f"\n🔍 Testing start sandbox endpoint for ID: {TrolixVEAPITester.sandbox_id}...")
+        print(f"\n🔍 Testing start sandbox endpoint for ID: {self.sandbox_id}...")
         response = requests.post(
-            f"{self.base_url}/api/sandboxes/{TrolixVEAPITester.sandbox_id}/start"
+            f"{self.base_url}/api/sandboxes/{self.sandbox_id}/start"
         )
         self.assertEqual(response.status_code, 200)
         data = response.json()
@@ -130,7 +130,7 @@ class TrolixVEAPITester(unittest.TestCase):
         response = requests.get(f"{self.base_url}/api/sandboxes")
         sandboxes = response.json()
         for sandbox in sandboxes:
-            if sandbox["id"] == TrolixVEAPITester.sandbox_id:
+            if sandbox["id"] == self.sandbox_id:
                 self.assertEqual(sandbox["status"], "running")
                 break
 
