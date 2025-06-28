@@ -63,8 +63,7 @@ class TrolixVEAPITester(unittest.TestCase):
         data = response.json()
         self.assertIn("sandbox_id", data)
         self.assertIn("message", data)
-        self.test_04_create_sandbox.sandbox_id = data["sandbox_id"]
-        TrolixVEAPITester.sandbox_id = data["sandbox_id"]
+        self.sandbox_id = data["sandbox_id"]
         print(f"✅ Create sandbox endpoint passed - Created sandbox with ID: {data['sandbox_id']}")
         
         # Wait for sandbox to be fully created
