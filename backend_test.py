@@ -221,12 +221,12 @@ class TrolixVEAPITester(unittest.TestCase):
 
     def test_11_delete_sandbox(self):
         """Test deleting a sandbox"""
-        if not TrolixVEAPITester.sandbox_id:
+        if not hasattr(self, 'sandbox_id') or not self.sandbox_id:
             self.skipTest("No sandbox ID available")
             
-        print(f"\n🔍 Testing delete sandbox endpoint for ID: {TrolixVEAPITester.sandbox_id}...")
+        print(f"\n🔍 Testing delete sandbox endpoint for ID: {self.sandbox_id}...")
         response = requests.delete(
-            f"{self.base_url}/api/sandboxes/{TrolixVEAPITester.sandbox_id}"
+            f"{self.base_url}/api/sandboxes/{self.sandbox_id}"
         )
         self.assertEqual(response.status_code, 200)
         data = response.json()
@@ -237,7 +237,7 @@ class TrolixVEAPITester(unittest.TestCase):
         response = requests.get(f"{self.base_url}/api/sandboxes")
         sandboxes = response.json()
         for sandbox in sandboxes:
-            self.assertNotEqual(sandbox["id"], TrolixVEAPITester.sandbox_id)
+            self.assertNotEqual(sandbox["id"], self.sandbox_id)
 
     def test_12_error_handling(self):
         """Test error handling for non-existent sandbox"""
